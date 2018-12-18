@@ -371,7 +371,6 @@ generateResearchTree <- function(objectives){
     
     l <- layout_with_lgl(net)
     l <- norm_coords(l, ymin=-1, ymax=1, xmin=-1, xmax=1)
-    png(width=16, height = 9, dpi=300)
     plot<- plot( net, 
          asp=16/9, 
          rescale=F, 
@@ -399,8 +398,7 @@ generateResearchTree <- function(objectives){
            bty="n",
            ncol=1)
     filename <- paste("RESEARCH_", f,"_GOALS_COMPLETION_GRAPH.png", sep="" )
-    save(plot, file=filename )
-    dev.off()
+    #ggsave(plot, file=filename, width=16, height = 9, dpi=300)
     }
     else{
       print(paste(f, "RESEARCH ANALYSIS: ",as.character(length(unique(relevant_prereq$r_name)))," ELEMENTS TECH TREE COMPLETION SKIPPED (>50)"))
@@ -430,7 +428,7 @@ generateResearchTree <- function(objectives){
     ggsave(plot, file=filename, width=16, height = 9, dpi=300)
     
     plot <- ggplot(melt(tech_progress), aes( x=objective, y=value, color=data_type, fill=data_type, group=objective))+
-      geom_bar(position="dodge", stat="identity")+
+      geom_bar(position="stack", stat="identity")+
       labs(x="RESEARCH OBJECTIVE", y="COMPLETION BARS", title=paste("TEAM", f, "RESEARCH GOALS:" ))
     filename <- paste("RESEARCH_", f,"_GOALS_COMPLETION_BARS.png", sep="" )
     ggsave(plot, file=filename, width=16, height = 9, dpi=300)
